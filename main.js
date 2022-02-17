@@ -6,6 +6,7 @@ let initProducts = () => {
     // console.log(shirts);
 
     // Your Code Here
+    console.log(shirts);
 };
 
 let initDetails = () => {
