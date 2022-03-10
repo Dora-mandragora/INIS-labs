@@ -15,7 +15,7 @@ let initProducts = () => {
         divShirts.className = "products-table-block";
         divShirts.innerHTML = '<img src = ' + shirts[i].colors.white.front + '>'
         + '<h3>' + shirts[i].name + '</h3>'
-        + '<p>Available in ' + shirts[i].colors.length + '</p>'; //так не работает, потом поменять
+        + '<p>Available in ' + Object.keys(shirts[i].colors).length + '</p>'; //так не работает, потом поменять
         //divShirts.insertAdjacentHTML("beforeend", '<p>Привет</p>');
         document
         .body
@@ -27,8 +27,9 @@ let initProducts = () => {
         //добавить еще блок с кнопками
         let divButton = document.createElement('div');
         divButton.className = "products-table-buttons";
-        divButton.innerHTML = '<button>Quick View</button>'
-        + '<button>Quick View</button>';
+        divButton.innerHTML = 
+        '<button id = ' + i + '>Quick View</button>'
+        + '<button id = ' + i + ' onClick = \'changePage(this.id)\'>See Page</button>';
         
         document
         .body
@@ -43,6 +44,12 @@ let initProducts = () => {
 let initDetails = () => {
     // To see the shirts object, run:
     // console.log(shirts);
-
     // Your Code Here
+    let id = document.URL.search();
+    let divShirts = document.createElement('div');
+    divShirts.innerHTML = id;
+    document
+    .body
+    .insertAdjacentElement("beforeend", divShirts);
+    //так не работает - почитать документ, который скинули в беседу
 };
