@@ -9,9 +9,9 @@ let initProducts = () => {
         let divShirts = document.createElement('div');
         divShirts.className = "products-table-block";
         divShirts.innerHTML = '<img src = ' + shirts[i].colors.white.front + '>'
-        + '<h3>' + shirts[i].name + '</h3>'
-        + '<p>Available in ' + Object.keys(shirts[i].colors).length + '</p>'; //так не работает, потом поменять
-        //divShirts.insertAdjacentHTML("beforeend", '<p>Привет</p>');
+        + '<h3>' + shirts[i].name + '</h3>';        
+        if(Object.keys(shirts[i].colors).length > 1) divShirts.innerHTML += '<p>Available in ' + Object.keys(shirts[i].colors).length+ ' colors</p>';
+        else divShirts.innerHTML +=  '<p>Available in ' + Object.keys(shirts[i].colors).length + ' color </p>';
         document
         .body
         .children[0]
