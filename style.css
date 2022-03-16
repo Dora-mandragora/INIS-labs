@@ -198,6 +198,31 @@ color: none;
 
 /*******************************details******************************************************/
 
+/******************************qiuck details*************************************************/
+
+#temporary{
+    display: flex;    
+}
+
+.quick-details{        
+    font-family: 'open sans', sans-serif;
+    color: var(--color-dark-blue);
+
+    background-color: var(--color-light-blue);    
+}
+
+.pair-shirts{
+    margin: 20px 100px;
+}
+
+.pair-shirts img{
+    height: 50%;      
+    
+}
+
+
+/******************************qiuck details*************************************************/
+
 body{
     margin: 0;
 }
