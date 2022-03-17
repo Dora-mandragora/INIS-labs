@@ -13,6 +13,7 @@ let quickView = (id) => {
 
     let divImgs = document.createElement('div');
     divImgs.className = "pair-shirts";
+    divImgs.setAttribute('onclick','changePage(' + id + ');');
     document
     .body
     .children[0] 
@@ -38,7 +39,7 @@ let quickView = (id) => {
     divInfo.innerHTML = 
     '<h3>' + shirt.name + '</h3>' +
     '<h4>' + shirt.price + '</h4>' +
-    '<button id ' + id + ' onclick = \'deleteClass(this.id)\'>Close</button>';
+    '<button id = ' + id + ' onclick = \'deleteClass(this.id)\'>Close</button>';
     //divInfo.insertAdjacentElement('beforeend',);
 
 }
