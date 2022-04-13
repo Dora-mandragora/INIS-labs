@@ -1,14 +1,5 @@
 
 
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-    alert("Вы используете мобильное устройство (телефон или планшет).");
-} else alert("Вы используете ПК.");
-
-
-
-
-
-
 const dragEl = document.querySelectorAll('.target'); 
 let coordX; 
 let coordY;
@@ -49,7 +40,37 @@ for (let i=0; i<elSize; i++){
         }
     };  
     
-    activeEl.addEventListener('mousedown', onMouseDownDrag);
+
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+        //Mobile
+        activeEl.addEventListener('touchstart', onMouseDownDrag);
+    function onMouseDownDrag(e)
+    {                      
+        
+        let shiftX = e.clientX - activeEl.getBoundingClientRect().left;
+        let shiftY = e.clientY - activeEl.getBoundingClientRect().top;
+
+        function moveAt(pageX, pageY){
+            activeEl.style.top = pageY - shiftY + 'px'; 
+            activeEl.style.left = pageX - shiftX + 'px';
+        }
+        function onMouseMove(event) {
+            moveAt(event.pageX, event.pageY);
+        }        
+        function onClickDragExit(){
+            activeEl.removeEventListener('touchend',onClickDragExit);
+            document.removeEventListener('touchmove',onMouseMove, false);            
+            
+        }
+
+        document.addEventListener('touchmove', onMouseMove, false);        
+        activeEl.addEventListener('touchend', onClickDragExit);
+    };
+
+    } 
+    else {
+        //PC
+        activeEl.addEventListener('mousedown', onMouseDownDrag);
     function onMouseDownDrag(e)
     {                      
         
@@ -72,7 +93,11 @@ for (let i=0; i<elSize; i++){
         document.addEventListener('mousemove', onMouseMove, false);        
         activeEl.addEventListener('mouseup', onClickDragExit);
     };
+    };
+    
+    
 
+    
 
     activeEl.addEventListener('dblclick', onDblClickDrag);    
     function onDblClickDrag(e)
