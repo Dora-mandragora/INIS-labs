@@ -1,5 +1,14 @@
 
 
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+    alert("Вы используете мобильное устройство (телефон или планшет).");
+} else alert("Вы используете ПК.");
+
+
+
+
+
+
 const dragEl = document.querySelectorAll('.target'); 
 let coordX; 
 let coordY;
@@ -7,6 +16,7 @@ let elSize = dragEl.length;
 
 let isDoubleClick = false;
 let isMouseMove = false;
+
 
 for (let i=0; i<elSize; i++){ 
 
