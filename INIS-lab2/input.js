@@ -30,10 +30,13 @@ for (let i=0; i<elSize; i++){
     { 
         if(!isDoubleClick){
                             
-                activeEl.style.background = 'blue'; 
+                if(!isMouseMove) 
+                {
+                    activeEl.style.background = 'blue'; 
                 for (let j = 0; j< elSize; j++){ 
                     if (j!==i)                                  
                         dragEl[j].style.background = 'red'; 
+                }
                   
             }
            
@@ -43,6 +46,8 @@ for (let i=0; i<elSize; i++){
 
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
         //Mobile
+
+        //проверить, почему не работает
         activeEl.addEventListener('touchstart', onMouseDownDrag);
     function onMouseDownDrag(e)
     {                      
@@ -69,11 +74,11 @@ for (let i=0; i<elSize; i++){
 
     } 
     else {
-        //PC
+        //PC####################################################################
         activeEl.addEventListener('mousedown', onMouseDownDrag);
     function onMouseDownDrag(e)
     {                      
-        
+        isMouseMove = false;  
         let shiftX = e.clientX - activeEl.getBoundingClientRect().left;
         let shiftY = e.clientY - activeEl.getBoundingClientRect().top;
 
@@ -83,18 +88,19 @@ for (let i=0; i<elSize; i++){
         }
         function onMouseMove(event) {
             moveAt(event.pageX, event.pageY);
+            isMouseMove = true;
         }        
         function onClickDragExit(){
             activeEl.removeEventListener('mouseup',onClickDragExit);
-            document.removeEventListener('mousemove',onMouseMove, false);            
-            
-        }
+            document.removeEventListener('mousemove',onMouseMove, false);
+         }
 
         document.addEventListener('mousemove', onMouseMove, false);        
         activeEl.addEventListener('mouseup', onClickDragExit);
     };
     };
-    
+     //PC####################################################################
+
     
 
     
