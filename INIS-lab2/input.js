@@ -1,8 +1,7 @@
 
 
 const dragEl = document.querySelectorAll('.target'); 
-let coordX; 
-let coordY;
+    
 let elSize = dragEl.length;
 
 let isDoubleClick = false;
@@ -43,38 +42,50 @@ for (let i=0; i<elSize; i++){
         }
     };  
     
-
+//MOBILE##############################################################################################
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
         //Mobile
 
         //проверить, почему не работает
-        activeEl.addEventListener('touchstart', onMouseDownDrag);
+        //а не работает потому, что надо обязательно проверять, 
+        //один ли палец нажат
+        activeEl.addEventListener('touchstart', onMouseDownDrag, false);
     function onMouseDownDrag(e)
-    {                      
-        
-        let shiftX = e.clientX - activeEl.getBoundingClientRect().left;
-        let shiftY = e.clientY - activeEl.getBoundingClientRect().top;
+    {        
+        if(e.targetTouches.length === 1)
+                var touch = e.targetTouches[0];
+
+        let shiftX = touch.clientX - activeEl.getBoundingClientRect().left;
+        let shiftY = touch.clientY - activeEl.getBoundingClientRect().top;
 
         function moveAt(pageX, pageY){
             activeEl.style.top = pageY - shiftY + 'px'; 
             activeEl.style.left = pageX - shiftX + 'px';
         }
         function onMouseMove(event) {
-            moveAt(event.pageX, event.pageY);
+            if(event.targetTouches.length === 1)
+                {
+                    var touch = event.targetTouches[0];
+                    moveAt(touch.pageX, touch.pageY);
+                }
+                else; //прервать движение
         }        
         function onClickDragExit(){
-            activeEl.removeEventListener('touchend',onClickDragExit);
+            activeEl.removeEventListener('touchend',onClickDragExit, false);
             document.removeEventListener('touchmove',onMouseMove, false);            
             
         }
 
         document.addEventListener('touchmove', onMouseMove, false);        
-        activeEl.addEventListener('touchend', onClickDragExit);
-    };
+        activeEl.addEventListener('touchend', onClickDragExit, false);
+     };
 
     } 
+    //MOBILE##############################################################################################
+
+
+    //PC####################################################################
     else {
-        //PC####################################################################
         activeEl.addEventListener('mousedown', onMouseDownDrag);
     function onMouseDownDrag(e)
     {                      
