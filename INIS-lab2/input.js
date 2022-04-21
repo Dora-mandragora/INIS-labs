@@ -67,7 +67,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     if(e.targetTouches.length === 2)
     {       
         
-        activeEl.addEventListener('gestureend', PinchZoom, false);
+        activeEl.addEventListener('gesturemove', PinchZoom, false);
         function PinchZoom(event)
         {
             if(event.scale < 1.0){
