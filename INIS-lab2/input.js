@@ -43,13 +43,13 @@ for (let i=0; i<elSize; i++){
     };  
     
 //MOBILE##############################################################################################
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
         //Mobile
 
         //проверить, почему не работает
         //а не работает потому, что надо обязательно проверять, 
         //один ли палец нажат
-        activeEl.addEventListener('touchstart', onMouseDownDrag, false);
+    activeEl.addEventListener('touchstart', onMouseDownDrag, false);
     function onMouseDownDrag(e)
     {        
         if(e.targetTouches.length === 1)
@@ -68,7 +68,7 @@ for (let i=0; i<elSize; i++){
                     var touch = event.targetTouches[0];
                     moveAt(touch.pageX, touch.pageY);
                 }
-                else; //прервать движение
+                else onClickDragExit(event); //прервать движение
         }        
         function onClickDragExit(){
             activeEl.removeEventListener('touchend',onClickDragExit, false);
@@ -80,7 +80,19 @@ for (let i=0; i<elSize; i++){
         activeEl.addEventListener('touchend', onClickDragExit, false);
      };
 
-    } 
+    
+    activeEl.addEventListener('gestureend', PinchZoom, false);
+    function PinchZoom(event)
+    {
+        if(event.scale < 1.0){
+            activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(0.5)';
+        }
+        else if(event.scale > 1.0){
+            activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(1.5)';
+        }
+    }
+}
+
     //MOBILE##############################################################################################
 
 
