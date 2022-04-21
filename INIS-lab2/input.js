@@ -66,8 +66,9 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
 
     if(e.targetTouches.length === 2)
     {       
+        let shiftX = activeEl.getBoundingClientRect().left;
+        let shiftY = activeEl.getBoundingClientRect().top;
         
-        activeEl.addEventListener('gesturechange', PinchZoom, false);
         function PinchZoom(event)
         {
             if(event.scale < 1.0){
@@ -86,8 +87,12 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
                     var touch = event.targetTouches[0];
                     moveAt(touch.pageX, touch.pageY);
                 }
+            else if(event.targetTouches.length === 2){
+                PinchZoom(event);
+            }
                 else onClickDragExit(event); //прервать движение
-        }        
+        }    
+            
         function onClickDragExit(){
             activeEl.removeEventListener('touchend',onClickDragExit, false);
             document.removeEventListener('touchmove',onMouseMove, false);            
