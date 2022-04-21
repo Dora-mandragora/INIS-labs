@@ -3,6 +3,7 @@
 const dragEl = document.querySelectorAll('.target'); 
     
 let elSize = dragEl.length;
+let scale = 1;
 
 let isDoubleClick = false;
 let isMouseMove = false;
@@ -63,28 +64,13 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             activeEl.style.left = pageX - shiftX + 'px';
         }
     }
-
     
-        function PinchZoom(event)
-        {
-            if(event.scale < 1.0){
-                activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(0.5)';
-            }
-            else if(event.scale > 1.0){
-                activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(1.5)';
-            }
-        }
-        
-
         function onMouseMove(event) {
             if(event.targetTouches.length === 1)
                 {
                     var touch = event.targetTouches[0];
                     moveAt(touch.pageX, touch.pageY);
-                }
-            else if(event.targetTouches.length === 2){
-                PinchZoom(event);
-            }
+                }            
                 else onClickDragExit(event); //прервать движение
         }    
 
@@ -96,17 +82,31 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
 
         document.addEventListener('touchmove', onMouseMove, false);        
         activeEl.addEventListener('touchend', onClickDragExit, false);
-    };
+    };  
+    
+    activeEl.addEventListener('gesturechange', PinchZoom, false);    
+    function PinchZoom(event)
+    {
+        scale += event.scale;
+        
+        console.log(scale);
+
+
+        // if(event.scale < 1.0){
+        //     activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(0.5)';
+        // }
+        // else if(event.scale > 1.0){
+        //     activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(1.5)';
+        // }
+    }
+
 }
-
-
-
     //MOBILE##############################################################################################
 
 
     //PC####################################################################
     else {
-        activeEl.addEventListener('mousedown', onMouseDownDrag);
+    activeEl.addEventListener('mousedown', onMouseDownDrag);
     function onMouseDownDrag(e)
     {                      
         isMouseMove = false;  
@@ -129,6 +129,8 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
         document.addEventListener('mousemove', onMouseMove, false);        
         activeEl.addEventListener('mouseup', onClickDragExit);
     };
+
+    
     };
      //PC####################################################################
 
