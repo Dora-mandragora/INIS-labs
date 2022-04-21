@@ -62,13 +62,9 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             activeEl.style.top = pageY - shiftY + 'px'; 
             activeEl.style.left = pageX - shiftX + 'px';
         }
-    }
+        }
 
-    if(e.targetTouches.length === 2)
-    {       
-        let shiftX = activeEl.getBoundingClientRect().left;
-        let shiftY = activeEl.getBoundingClientRect().top;
-        
+    
         function PinchZoom(event)
         {
             if(event.scale < 1.0){
@@ -78,8 +74,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
                 activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(1.5)';
             }
         }
-    }
-
+        }
 
         function onMouseMove(event) {
             if(event.targetTouches.length === 1)
@@ -92,7 +87,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             }
                 else onClickDragExit(event); //прервать движение
         }    
-            
+
         function onClickDragExit(){
             activeEl.removeEventListener('touchend',onClickDragExit, false);
             document.removeEventListener('touchmove',onMouseMove, false);            
