@@ -52,9 +52,9 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     activeEl.addEventListener('touchstart', onMouseDownDrag, false);
     function onMouseDownDrag(e)
     {        
-        if(e.targetTouches.length === 1)
+        if(e.targetTouches.length === 1){
                 var touch = e.targetTouches[0];
-
+        
         let shiftX = touch.clientX - activeEl.getBoundingClientRect().left;
         let shiftY = touch.clientY - activeEl.getBoundingClientRect().top;
 
@@ -62,6 +62,24 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             activeEl.style.top = pageY - shiftY + 'px'; 
             activeEl.style.left = pageX - shiftX + 'px';
         }
+    }
+
+    if(e.targetTouches.length === 2)
+    {       
+        
+        activeEl.addEventListener('gestureend', PinchZoom, false);
+        function PinchZoom(event)
+        {
+            if(event.scale < 1.0){
+                activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(0.5)';
+            }
+            else if(event.scale > 1.0){
+                activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(1.5)';
+            }
+        }
+    }
+
+
         function onMouseMove(event) {
             if(event.targetTouches.length === 1)
                 {
@@ -80,17 +98,6 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
         activeEl.addEventListener('touchend', onClickDragExit, false);
      };
 
-    
-    activeEl.addEventListener('gestureend', PinchZoom, false);
-    function PinchZoom(event)
-    {
-        if(event.scale < 1.0){
-            activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(0.5)';
-        }
-        else if(event.scale > 1.0){
-            activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(1.5)';
-        }
-    }
 }
 
     //MOBILE##############################################################################################
