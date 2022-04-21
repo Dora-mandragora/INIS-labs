@@ -62,7 +62,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             activeEl.style.top = pageY - shiftY + 'px'; 
             activeEl.style.left = pageX - shiftX + 'px';
         }
-        }
+    }
 
     
         function PinchZoom(event)
@@ -74,7 +74,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
                 activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(1.5)';
             }
         }
-        }
+        
 
         function onMouseMove(event) {
             if(event.targetTouches.length === 1)
@@ -96,9 +96,10 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
 
         document.addEventListener('touchmove', onMouseMove, false);        
         activeEl.addEventListener('touchend', onClickDragExit, false);
-     };
-
+    };
 }
+
+
 
     //MOBILE##############################################################################################
 
