@@ -74,7 +74,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     let width = parseFloat(activeEl.style.width);
     let scale = 1;
     activeEl.addEventListener('touchstart', onTouchZoom)
-    function onTouchZoom(){
+    function onTouchZoom(e){
         let delta = 0;
         if(e.targetTouches.length === 2){
             var touch1 = e.targetTouches[0];
