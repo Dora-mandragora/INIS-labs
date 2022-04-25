@@ -79,7 +79,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
         if(e.targetTouches.length === 2){
             var touch1 = e.targetTouches[0];
             var touch2 = e.targetTouches[1];
-            delta = Math.SQRT2((touch1.clientX-touch2.clientX)*(touch1.clientX-touch2.clientX)
+            delta = Math.sqrt((touch1.clientX-touch2.clientX)*(touch1.clientX-touch2.clientX)
             + (touch1.clientY-touch2.clientY)*(touch1.clientY-touch2.clientY));
             console.log(delta);
         }
