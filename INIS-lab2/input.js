@@ -74,7 +74,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     let width = parseFloat(activeEl.style.width);
     let scale = 1;
     activeEl.addEventListener('touchstart', onTouchZoom)
-    function onTouchZoom(event){
+    function onTouchZoom(){
         let delta = 0;
         if(e.targetTouches.length === 2){
             var touch1 = e.targetTouches[0];
@@ -83,11 +83,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             + (touch1.clientY-touch2.clientY)*(touch1.clientY-touch2.clientY));
             console.log(delta);
         }
-        scale += event.deltaY * -0.001;         
-        scale = Math.min(Math.max(.125, scale), 4);        
-        activeEl.style.width = width * scale + 'px';
-        activeEl.style.height = height * scale + 'px';        
-        
+       
         function onTouchMove(){
             if(e.targetTouches.length === 2){
                 var touch1 = e.targetTouches[0];
