@@ -3,7 +3,6 @@
 const dragEl = document.querySelectorAll('.target'); 
     
 let elSize = dragEl.length;
-let scale = 1;
 
 let isDoubleClick = false;
 let isMouseMove = false;
@@ -12,24 +11,10 @@ let isMouseMove = false;
 for (let i=0; i<elSize; i++){ 
 
     let activeEl = dragEl[i];
-
-    //activeEl.draggable= true;
-    ////может сделать не через draggable    
-    // activeEl.addEventListener('dragstart',(e) => { 
-    //     coordX = e.offsetX; 
-    //     coordY = e.offsetY; 
-    // }); 
-    // activeEl.addEventListener('dragend', (e) => { 
-    //     activeEl.style.top = (e.pageY - coordY) + 'px'; 
-    //     activeEl.style.left = (e.pageX - coordX) + 'px'; 
-    // }); 
-
-        
     activeEl.addEventListener('click',onClick);    
     function onClick()
     { 
-        if(!isDoubleClick){
-                            
+        if(!isDoubleClick){                            
                 if(!isMouseMove) 
                 {
                     activeEl.style.background = 'blue'; 
@@ -64,6 +49,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             activeEl.style.left = pageX - shiftX + 'px';
         }
     }
+    else onClickDragExit();
     
         function onMouseMove(event) {
             if(event.targetTouches.length === 1)
@@ -71,7 +57,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
                     var touch = event.targetTouches[0];
                     moveAt(touch.pageX, touch.pageY);
                 }            
-                else onClickDragExit(event); //прервать движение
+                else onClickDragExit(); //прервать движение
         }    
 
         function onClickDragExit(){
@@ -84,34 +70,63 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
         activeEl.addEventListener('touchend', onClickDragExit, false);
     };  
     
-    activeEl.addEventListener('gesturechange', PinchZoom, false);    
-    function PinchZoom(event)
-    {
-        scale += event.scale;
+    let height = parseFloat(activeEl.style.height);
+    let width = parseFloat(activeEl.style.width);
+    let scale = 1;
+    activeEl.addEventListener('touchstart', onTouchZoom)
+    function onTouchZoom(event){
+        let delta = 0;
+        if(e.targetTouches.length === 2){
+            var touch1 = e.targetTouches[0];
+            var touch2 = e.targetTouches[1];
+            delta = Math.SQRT2((touch1.clientX-touch2.clientX)*(touch1.clientX-touch2.clientX)
+            + (touch1.clientY-touch2.clientY)*(touch1.clientY-touch2.clientY));
+            console.log(delta);
+        }
+        scale += event.deltaY * -0.001;         
+        scale = Math.min(Math.max(.125, scale), 4);        
+        activeEl.style.width = width * scale + 'px';
+        activeEl.style.height = height * scale + 'px';        
         
-        console.log(scale);
+        function onTouchMove(){
+            if(e.targetTouches.length === 2){
+                var touch1 = e.targetTouches[0];
+                var touch2 = e.targetTouches[1];
+                let deltaN = Math.SQRT2((touch1.clientX-touch2.clientX)*(touch1.clientX-touch2.clientX)
+                + (touch1.clientY-touch2.clientY)*(touch1.clientY-touch2.clientY));
 
+                if((delta-deltaN) > 0) scale += scale* -0.001;
+                else scale += scale* 0.001;
+                console.log(scale);
+                activeEl.style.width = width * scale + 'px';
+                activeEl.style.height = height * scale + 'px';
+            }
+            else onTouchExit();
+        }
 
-        // if(event.scale < 1.0){
-        //     activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(0.5)';
-        // }
-        // else if(event.scale > 1.0){
-        //     activeEl.style.transform = activeEl.style.WebkitTransform = activeEl.style.MsTransform = 'scale(1.5)';
-        // }
+        function onTouchExit(){
+            activeEl.removeEventListener('touchend', onTouchExit, false);
+            document.removeEventListener('touchmove', onTouchMove, false); 
+        }
+
+        document.addEventListener('touchmove', onTouchMove, false);
+        activeEl.addEventListener('touchend', onTouchExit, false);
     }
 
 }
-    //MOBILE##############################################################################################
+//MOBILE##############################################################################################
 
 
-    //PC####################################################################
-    else {
+//PC####################################################################
+else {
     activeEl.addEventListener('mousedown', onMouseDownDrag);
     function onMouseDownDrag(e)
     {                      
         isMouseMove = false;  
         let shiftX = e.clientX - activeEl.getBoundingClientRect().left;
         let shiftY = e.clientY - activeEl.getBoundingClientRect().top;
+        let fpaxeX = e.pageX;
+        let fpaxeY = e.pageY;
 
         function moveAt(pageX, pageY){
             activeEl.style.top = pageY - shiftY + 'px'; 
@@ -121,22 +136,26 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             moveAt(event.pageX, event.pageY);
             isMouseMove = true;
         }        
-        function onClickDragExit(){
+        function onClickDragExit(){            
             activeEl.removeEventListener('mouseup',onClickDragExit);
             document.removeEventListener('mousemove',onMouseMove, false);
-         }
-
+            document.removeEventListener('keyup', EscCancel); 
+        }
+        function EscCancel(e){   
+            if(e.key == "Escape"){
+                activeEl.style.top = fpaxeY - shiftY + 'px'; 
+                activeEl.style.left = fpaxeX - shiftX + 'px';
+            onClickDragExit();
+            }            
+        }
+        document.addEventListener('keyup', EscCancel); 
         document.addEventListener('mousemove', onMouseMove, false);        
         activeEl.addEventListener('mouseup', onClickDragExit);
     };
 
     
-    };
-     //PC####################################################################
-
-    
-
-    
+};
+//PC####################################################################    
 
     activeEl.addEventListener('dblclick', onDblClickDrag);    
     function onDblClickDrag(e)
@@ -145,7 +164,9 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
         activeEl.style.background = 'yellow';
         
         let shiftX = e.clientX - activeEl.getBoundingClientRect().left;
-        let shiftY = e.clientY - activeEl.getBoundingClientRect().top;
+        let shiftY = e.clientY - activeEl.getBoundingClientRect().top;        
+        let fpaxeX = e.pageX;
+        let fpaxeY = e.pageY;
 
         function moveAt(pageX, pageY){
             activeEl.style.top = pageY - shiftY + 'px'; 
@@ -157,13 +178,35 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
         function onClickDragExit(){
             activeEl.removeEventListener('click',onClickDragExit);
             document.removeEventListener('mousemove',onMouseMove, false);
+            document.removeEventListener('keyup', EscCancel); 
+
+
             activeEl.style.background = 'red'; 
             isDoubleClick = false;
         }
+        function EscCancel(e){   
+            if(e.key == "Escape"){
+                activeEl.style.top = fpaxeY - shiftY + 'px'; 
+                activeEl.style.left = fpaxeX - shiftX + 'px';
+            onClickDragExit();
+            }            
+        }
 
+        document.addEventListener('keyup', EscCancel); 
         document.addEventListener('mousemove', onMouseMove, false);        
         activeEl.addEventListener('click', onClickDragExit);
     };
+
+    let height = parseFloat(activeEl.style.height);
+    let width = parseFloat(activeEl.style.width);
+    let scale = 1;
+    activeEl.addEventListener('wheel', onWheelZoom)
+    function onWheelZoom(event){
+        scale += event.deltaY * -0.001;         
+        scale = Math.min(Math.max(.125, scale), 4);        
+        activeEl.style.width = width * scale + 'px';
+        activeEl.style.height = height * scale + 'px';
+    }
 } 
 
  
