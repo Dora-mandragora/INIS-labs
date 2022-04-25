@@ -91,7 +91,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
                 let deltaN = Math.sqrt((touch1.clientX-touch2.clientX)*(touch1.clientX-touch2.clientX)
                 + (touch1.clientY-touch2.clientY)*(touch1.clientY-touch2.clientY));
 
-                if((delta-deltaN) > 0) scale += scale* -0.001;
+                if((delta-deltaN) > 0) scale += scale* -0.005;
                 else scale += scale* 0.001;
                 console.log(scale);
                 activeEl.style.width = width * scale + 'px';
