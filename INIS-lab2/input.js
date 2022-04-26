@@ -52,8 +52,8 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     else onClickDragExit();
     
         function onMouseMove(event) {
-            console.log(event.targetTouches.target);
-            if(event.targetTouches.length === 1 && event.targetTouches.target == 0)
+            console.log(event.targetTouches[0].target);
+            if(event.targetTouches.length === 1 || event.Touches.some(e => e.target == "") == 0)
                 {
                     var touch = event.targetTouches[0];
                     moveAt(touch.pageX, touch.pageY);
