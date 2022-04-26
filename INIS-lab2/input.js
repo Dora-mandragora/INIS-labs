@@ -52,7 +52,8 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     else onClickDragExit();
     
         function onMouseMove(event) {
-            if(event.targetTouches.length === 1)
+            console.log(event.targetTouches.target);
+            if(event.targetTouches.length === 1 && event.targetTouches.target == 0)
                 {
                     var touch = event.targetTouches[0];
                     moveAt(touch.pageX, touch.pageY);
@@ -92,8 +93,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
                 + (touch1.clientY-touch2.clientY)*(touch1.clientY-touch2.clientY));
 
                 if((delta-deltaN) > 0) scale += scale* -0.005;
-                else scale += scale* 0.001;
-                console.log(scale);
+                else scale += scale* 0.001;                
                 activeEl.style.width = width * scale + 'px';
                 activeEl.style.height = height * scale + 'px';
             }
