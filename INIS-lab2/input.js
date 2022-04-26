@@ -53,7 +53,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     
         function onMouseMove(event) {
             console.log(event.targetTouches[0].target);
-            if(event.targetTouches.length === 1 || event.Touches.some(e => e.target.id == "workspace") == 0)
+            if(event.targetTouches.length === 1 || !event.touches.some(e => e.target.id == "workspace"))
                 {
                     var touch = event.targetTouches[0];
                     moveAt(touch.pageX, touch.pageY);
