@@ -52,13 +52,12 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     else onClickDragExit();
     
         function onMouseMove(event) {
-            //console.log(event.targetTouches[0].target);
             if(event.targetTouches.length === 1 && event.touches.length === 1)
                 {
                     var touch = event.targetTouches[0];
                     moveAt(touch.pageX, touch.pageY);
                 }            
-                else onClickDragExit(); //прервать движение
+                else onClickDragExit(); 
         }    
 
         function onClickDragExit(){
