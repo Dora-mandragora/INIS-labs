@@ -214,3 +214,12 @@ workspace.addEventListener('click', (e) => {
     } 
 });
 
+const testobj = document.querySelector('#test');
+document.addEventListener('keydown', MoveObj);
+function MoveObj(e){
+if(e.key == "ArrowLeft") testobj.style.left = parseFloat(testobj.style.left) - 5 + 'px';
+else if(e.key == "ArrowRight")testobj.style.left = parseFloat(testobj.style.left) + 5 + 'px';
+else if(e.key == "ArrowUp") testobj.style.top = parseFloat(testobj.style.top) - 5 + 'px';
+else if(e.key == "ArrowDown") testobj.style.top = parseFloat(testobj.style.top) + 5 + 'px';
+}
+
